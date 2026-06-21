@@ -1,0 +1,16 @@
+{
+  "name": "soigia",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/shared-types",
+    "packages/tsconfig"
+  ],
+  "scripts": {
+    "dev:web": "npm --workspace @soigia/web run dev",
+    "dev:api": "npm --workspace @soigia/api run dev",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present"
+  }
+}

@@ -1,0 +1,16 @@
+name: Deploy VPS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy scaffold reminder
+        run: |
+          test -f infra/scripts/deploy-vps.sh
+          echo "Wire SSH secrets and deployment commands in infra/scripts/deploy-vps.sh"
