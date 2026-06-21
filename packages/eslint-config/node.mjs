@@ -12,5 +12,11 @@ export default [
     rules: {
       "no-process-exit": "error"
     }
+  },
+  {
+    files: ["**/*.{cjs,cts}"],
+    languageOptions: {
+      sourceType: "commonjs"
+    }
   }
 ];
