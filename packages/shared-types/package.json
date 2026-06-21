@@ -5,9 +5,6 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "devDependencies": {
-    "@types/node": "^24.0.0"
-  },
   "scripts": {
     "build": "tsup src/index.ts --dts --format esm",
     "typecheck": "tsc -p tsconfig.json --noEmit"
