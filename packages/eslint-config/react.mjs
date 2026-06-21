@@ -6,7 +6,7 @@ import base from "./base.mjs";
 export default [
   ...base,
   {
-    files: ["**/*.{jsx,tsx}"],
+    files: ["**/*.{ts,tsx,js,jsx}"],
     languageOptions: {
       globals: globals.browser,
       parserOptions: {
