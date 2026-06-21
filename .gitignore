@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+.env
+.env.local
+.venv
+__pycache__
+.pytest_cache
+.ruff_cache
+.DS_Store
+pnpm-lock.yaml
+workers/crawler/.venv
