@@ -10,11 +10,10 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0"
+    "@types/react": "^19.0.0"
   },
   "scripts": {
-    "build": "tsup src/index.tsx --dts --format esm --tsconfig ../../packages/tsconfig/react.json",
-    "typecheck": "tsc -p ../../packages/tsconfig/react.json --noEmit"
+    "build": "tsup src/index.tsx --dts --format esm",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   }
 }
