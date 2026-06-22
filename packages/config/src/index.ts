@@ -7,3 +7,4 @@ export const appConfig = {
 export const queueNames = {
   priceIngestion: "price.ingestion"
 } as const;
+ 
