@@ -1,41 +1,44 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
+This repository is split into two TypeScript applications under `app/`:
 
-This repository is split into two Node/TypeScript apps under `app/`.
-The frontend lives in `app/front-end` and uses Vite, React, and TypeScript. Place UI code in `src/components`, page-level views in `src/pages`, route definitions in `src/routes`, API clients in `src/services`, shared hooks in `src/hooks`, state in `src/store`, and static assets in `public` or `src/assets`.
-The backend lives in `app/back-end` and uses Express, Prisma, and TypeScript. Keep feature code under `src/features/<feature>`, shared middleware in `src/middlewares`, configuration in `src/config`, utilities in `src/utils`, and database schema changes in `prisma/schema.prisma`.
+- `app/front-end/`: Vite + React client. Main entry is `src/main.tsx`; shared UI lives in `src/layouts/`, static assets in `src/assets/`, and public files in `public/`.
+- `app/back-end/`: Node.js API. Runtime code belongs in `src/`; Prisma schema and generated client inputs live in `prisma/`.
+
+Project notes and diagrams are kept at the repo root in `description.md` and `diagrams(1).drawio`.
 
 ## Build, Test, and Development Commands
-
 Run commands from the relevant app directory.
 
-```bash
-cd app/front-end && npm install
-cd app/front-end && npm run dev       # start Vite locally
-cd app/front-end && npm run build     # type-check and build frontend
-cd app/front-end && npm run lint      # run ESLint
-
-cd app/back-end && npm install
-cd app/back-end && npm run dev        # start backend with tsx watch
-cd app/back-end && npm run build      # generate Prisma client and compile TS
-cd app/back-end && npm start          # run compiled dist/server.js
-```
+- `npm install`: install dependencies for that app.
+- `npm run dev`: start the local dev server (`vite` in `front-end`, `tsx watch src/server.ts` in `back-end`).
+- `npm run build`: create a production build. Frontend runs TypeScript build checks and Vite bundling; backend runs `prisma generate` and `tsc`.
+- `npm run preview`: preview the built frontend locally.
+- `npm run lint`: run ESLint in `app/front-end`.
+- `npm run start`: run the compiled backend from `dist/server.js`.
 
 ## Coding Style & Naming Conventions
+Use TypeScript with strict typing and ES module syntax. Follow the existing 2-space indentation used in JSON and config files. Prefer:
 
-Use TypeScript throughout. Follow the existing style: ES modules, single quotes, no semicolons, and two-space indentation. Use `PascalCase` for React components, `camelCase` for functions and variables, and lowercase feature folders such as `src/features/product`. Keep controller and route files named consistently, for example `product.controllers.ts` and `product.routes.ts`.
+- `PascalCase` for React components
+- `camelCase` for variables and functions
+- `kebab-case` for new file names unless the file exports a component
+
+Frontend linting is configured in `app/front-end/eslint.config.js` with `typescript-eslint` and React Hooks rules. Keep backend code organized by feature under `src/features/<domain>/`.
 
 ## Testing Guidelines
-
-No test runner is currently configured. When adding tests, colocate them near the code they cover or use a clear `__tests__` folder, and name files `*.test.ts` or `*.test.tsx`. Prefer integration tests for backend routes and component tests for user-facing frontend behavior. Document any new test command in the matching `package.json`.
+There is no committed test runner yet. For new work, add tests alongside the feature you touch and document the command needed to run them in the app’s `package.json`. Until a shared framework is introduced, treat `npm run build` and frontend `npm run lint` as the minimum pre-PR checks.
 
 ## Commit & Pull Request Guidelines
+Recent commit history uses short, imperative summaries such as `structure` and `added: db diagram`. Keep commits focused and descriptive, for example `added: product routes` or `fix: frontend header layout`.
 
-Recent commits use short, imperative messages such as `added: db diagram` and `added: project description`. Keep commits focused and use concise messages in the same style, for example `added: product routes` or `fixed: login validation`.
+Pull requests should include:
 
-Pull requests should include a brief summary, the areas changed (`front-end`, `back-end`, `prisma`), test or lint results, linked issues when relevant, and screenshots for visible UI changes. Mention required environment variables or database migrations before requesting review.
+- a short summary of the change
+- linked issue or task context
+- screenshots or screen recordings for UI updates
+- notes on environment, schema, or API changes
 
 ## Security & Configuration Tips
-
-Do not commit secrets, `.env` files, generated build output, or local database dumps. Backend changes that touch Prisma should include the schema update and clear migration or deployment notes.
+Do not commit secrets or `.env` files. Review Prisma and server config changes carefully, and call out any new environment variables or external service dependencies in the PR description.
