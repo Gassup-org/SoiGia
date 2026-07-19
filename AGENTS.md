@@ -27,6 +27,9 @@ Use TypeScript with strict typing and ES module syntax. Follow the existing 2-sp
 
 Frontend linting is configured in `app/front-end/eslint.config.js` with `typescript-eslint` and React Hooks rules. Keep backend code organized by feature under `src/features/<domain>/`.
 
+## Code Comments Rule
+Any code generated or modified by the agent should include helpful comments where they make the implementation easier to maintain. Comment non-obvious business logic, validation rules, side effects, integration boundaries, data transformations, and workarounds. Avoid comments that only restate the code, such as describing a simple assignment or obvious function call.
+
 ## Testing Guidelines
 There is no committed test runner yet. For new work, add tests alongside the feature you touch and document the command needed to run them in the app’s `package.json`. Until a shared framework is introduced, treat `npm run build` and frontend `npm run lint` as the minimum pre-PR checks.
 
