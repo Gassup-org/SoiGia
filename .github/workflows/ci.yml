@@ -1,59 +1,74 @@
-name: Front-end CI
+name: CI
 
 on:
   push:
     branches: [main, dev]
     paths:
       - 'app/front-end/**'
+      - 'app/back-end/**'
+      - '.github/workflows/ci.yml'
   pull_request:
     branches: [main, dev]
     paths:
       - 'app/front-end/**'
+      - 'app/back-end/**'
+      - '.github/workflows/ci.yml'
 
 jobs:
-  build:
+  front-end:
+    name: Front-end
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./app/front-end
+        working-directory: app/front-end
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v7
-      
+        uses: actions/checkout@v4
+
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-          cache-dependency-path: './app/front-end/package-lock.json'
-      
+          cache: npm
+          cache-dependency-path: app/front-end/package-lock.json
+
       - name: Install dependencies
         run: npm ci
 
-      - name: Check Code Linting
+      - name: Lint
         run: npm run lint --if-present
+
+      - name: Test
+        run: npm run test --if-present
 
       - name: Build
         run: npm run build
 
-  test:
+  back-end:
+    name: Back-end
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./app/front-end
+        working-directory: app/back-end
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v7
-      
+        uses: actions/checkout@v4
+
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-          cache-dependency-path: './app/front-end/package-lock.json'
-      
+          cache: npm
+          cache-dependency-path: app/back-end/package-lock.json
+
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests
-        run: npm test --if-present
+      - name: Test
+        run: npm run test --if-present
+
+      # Build runs Prisma client generation before TypeScript compilation.
+      - name: Build
+        run: npm run build
