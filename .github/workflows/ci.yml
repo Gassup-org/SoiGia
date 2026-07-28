@@ -37,10 +37,7 @@ jobs:
         run: npm ci
 
       - name: Lint
-        run: npm run lint --if-present
-
-      - name: Test
-        run: npm run test --if-present
+        run: npm run lint
 
       - name: Build
         run: npm run build
@@ -67,7 +64,7 @@ jobs:
         run: npm ci
 
       - name: Test
-        run: npm run test --if-present
+        run: npm test -- --runInBand
 
       # Build runs Prisma client generation before TypeScript compilation.
       - name: Build
