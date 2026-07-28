@@ -1,0 +1,33 @@
+services:
+  # Local PostgreSQL database used by the backend during development.
+  postgres:
+    # Alpine image is smaller and enough for local development.
+    image: postgres:17-alpine
+    # Stable container name makes docker commands and logs easier to read.
+    container_name: soigia-postgres
+    # Restart automatically unless you explicitly stop the container.
+    restart: unless-stopped
+    environment:
+      # These DB_* variables come from app/back-end/.env when running with --env-file.
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+      POSTGRES_DB: ${DB_NAME:-soigia}
+    ports:
+      # Map host DB_PORT to the container's internal PostgreSQL port 5432.
+      - "${DB_PORT:-5433}:5432"
+    volumes:
+      # Store Postgres data in a named Docker volume so data survives restarts.
+      - soigia-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      # Mark the container healthy only after PostgreSQL accepts connections.
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      # Check database readiness every 10 seconds.
+      interval: 10s
+      # Treat a single readiness check as failed if it takes more than 5 seconds.
+      timeout: 5s
+      # Allow a few startup failures before Docker marks the container unhealthy.
+      retries: 5
+
+volumes:
+  # Named volume managed by Docker; it stores the database files outside the container lifecycle.
+  soigia-postgres-data:
