@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+    paths:
+      - 'app/front-end/**'
+      - 'app/back-end/**'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    branches: [main, dev]
+    paths:
+      - 'app/front-end/**'
+      - 'app/back-end/**'
+      - '.github/workflows/ci.yml'
+
+jobs:
+  front-end:
+    name: Front-end
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app/front-end
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: app/front-end/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+  back-end:
+    name: Back-end
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app/back-end
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: app/back-end/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test
+        run: npm test -- --runInBand
+
+      # Build runs Prisma client generation before TypeScript compilation.
+      - name: Build
+        run: npm run build

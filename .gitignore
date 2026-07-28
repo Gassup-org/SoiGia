@@ -1,0 +1,54 @@
+# Node
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs
+*.log
+logs/*
+pids
+*.pid
+*.pid.lock
+
+# Runtime
+.env
+.env.local
+.env.*.local
+
+# Build / output
+dist/
+build/
+coverage/
+.vite/
+
+# TypeScript
+*.tsbuildinfo
+
+# VSCode / IDEs
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor swap
+*~
+*.swp
+
+# Prisma
+**/prisma/migrations/
+**/.prisma/
+
+# Misc
+.cache/
+*.tgz
+
+# Lockfiles (do not ignore package-lock or yarn.lock by default)
+# If using pnpm, uncomment the next line to ignore pnpm-lock.yaml
+# pnpm-lock.yaml
